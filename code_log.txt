@@ -1,0 +1,21 @@
+2023-Dec-19-17:55:56 : Preliminaries complete. Initiating ETL process
+2023-Dec-19-17:55:59 : Data extraction complete. Initiating Transformation process
+2023-Dec-19-17:56:00 : Data extraction complete. Initiating Transformation process
+2023-Dec-19-17:56:00 : Data transformation complete. Initiating Loading process
+2023-Dec-19-17:56:00 : SQL Connection initiated
+2023-Dec-19-17:56:01 : Data extraction complete. Initiating Transformation process
+2023-Dec-19-17:56:01 : Data transformation complete. Initiating Loading process
+2023-Dec-19-17:56:01 : Data loaded to Database as a table, Executing queries
+2023-Dec-19-18:05:16 : Process Complete
+2023-Dec-19-18:05:57 : Process Complete
+2023-Dec-19-18:06:04 : Process Complete
+2023-Dec-19-18:06:24 : Process Complete
+2023-Dec-19-18:06:36 : Process Complete
+2023-Dec-19-18:08:08 : Process Complete
+2023-Dec-19-18:08:56 : Process Complete
+2023-Dec-19-18:17:01 : Process Complete
+2023-Dec-19-18:17:06 : Process Complete
+2023-Dec-19-18:49:54 : Process Complete
+2023-Dec-19-18:49:55 : Process Complete
+2023-Dec-19-18:49:55 : Process Complete
+2023-Dec-19-18:49:57 : Server Connection closed
