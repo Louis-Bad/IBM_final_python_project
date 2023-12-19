@@ -1,4 +1,5 @@
 # Import dependencies
+# !pip install pandas
 import pandas as pd
 import numpy as np
 from datetime import datetime
@@ -40,9 +41,9 @@ def extract(url='https://web.archive.org/web/20230908091635/https://en.wikipedia
     # Requesting wiki web page
     url = url
     page = requests.get(url)
-​
+
     # Creating a soup object of the wiki page
-    soup = BeautifulSoup(page.text)
+    soup = BeautifulSoup(page.text, features="html.parser")
     
     # Finding the required table
     tables = soup.find_all('table')
@@ -51,15 +52,15 @@ def extract(url='https://web.archive.org/web/20230908091635/https://en.wikipedia
     # Empty list to be populated with several other lists. Each of these lists will represent
     # a row in the wiki table
     extracted_data = []
-​
+
     # Iterate through each row in the market cap table and create an empty list
     for row in market_cap_tb.find_all('tr'):
         extract_row = []
-​
+
         # Iterate through each cell in the row and append the cell contents to a list
         for cell in row.find_all('td'):
             extract_row.append(cell.text[:-1]) # Each cell ends in "\n" so [:-1] will ignore the last two characters 
-​
+
         # Append the list of cell contents to the extracted_data list
         extracted_data.append(extract_row)
     
@@ -71,17 +72,17 @@ def extract(url='https://web.archive.org/web/20230908091635/https://en.wikipedia
     
     # Creating a pandas dataframe using extracted data
     df = pd.DataFrame(extracted_data)
-​
+
     # Set first row as column names and drop that row
     df.columns = df.loc[0, :]
     df = df.drop(index=0)
-​
+
     # Dropping the Rank column
     df = df.drop(columns='Rank')
-​
+
     # Renaming columns
     df.columns = table_attribs
-​
+
     # Type cast the market cap column to float
     df['MC_USD_Billion'] = df['MC_USD_Billion'].astype(float)
     
@@ -189,9 +190,50 @@ load_to_db(df, sql_connection=conn, table_name='Largest_banks')
 
 
 
-
 # ----Task 6 -------------------------------------------------------------------------
+def run_queries(query_statement, sql_connection):
+    ''' This function runs the query on the database table and
+    prints the output on the terminal. Function returns nothing. '''
+    
+    # Querying table and creating a pandas dataframe from the result
+    query = pd.read_sql(query_statement, sql_connection)
+    
+    # Log etl progress
+    log_progress("Process Complete")
+    
+    
+    # Return the query statement and the resulting table
+    return query
 
+
+# Query 1
+query_1 = '''
+SELECT * 
+FROM Largest_banks
+'''
+
+# Query 2
+query_2 = '''
+SELECT AVG(MC_GBP_Billion) 
+FROM Largest_banks
+'''
+
+# Query 3
+query_3 = '''
+SELECT Name 
+FROM Largest_banks 
+LIMIT 5
+'''
+
+# Executing all queries
+run_queries(query_1, conn)
+run_queries(query_2, conn)
+run_queries(query_3, conn)
+
+
+# Close server connection and create final log
+conn.close()
+log_progress("Server Connection closed")
 
 
 
@@ -201,6 +243,7 @@ load_to_db(df, sql_connection=conn, table_name='Largest_banks')
 
 
 # ----Task 7 -------------------------------------------------------------------------
+# Tasks 7 is simply to clear folder of any outputs previously created by running chunks of the above code and then run the script in its entirety
 
 
 
